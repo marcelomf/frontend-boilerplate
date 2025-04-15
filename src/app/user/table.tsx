@@ -15,6 +15,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { DataTableMA } from "@/components/datatable"
 import type { User } from "@/types"
 import { ApiMA } from "@/api"
@@ -93,9 +104,9 @@ export function UserTable() {
         const item = row.original
   
         return (
-          <DropdownMenu >
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
+              <Button variant="ghost" className="h-8 w-8 p-0" style={{cursor: 'pointer'}}>
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontal />
               </Button>
@@ -107,9 +118,28 @@ export function UserTable() {
               > Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem style={{cursor: 'pointer'}}><a href={`/user/show/${item.id}`}>Show</a></DropdownMenuItem>
-              <DropdownMenuItem style={{cursor: 'pointer'}}><a href={`/user/edit/${item.id}`}>Edit</a></DropdownMenuItem>
-              <DropdownMenuItem style={{cursor: 'pointer'}}>Remove</DropdownMenuItem>
+              <a href={`/user/show/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer'}}>Show</DropdownMenuItem></a>
+              <a href={`/user/edit/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer'}}>Edit</DropdownMenuItem></a>
+              <DropdownMenuItem style={{cursor: 'pointer'}}>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline">Remove</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure to remove this item ?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your
+                        item and remove your data from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

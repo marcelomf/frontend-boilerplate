@@ -1,9 +1,8 @@
 ---
-export const prerender = false
+export const prerender = false;
 
 import Layout from "@/layouts/Layout.astro";
 import { UserSave } from "@/app/user/save";
-import { ButtonBack } from "@/components/system/backbutton";
 import { ApiMA } from "@/api";
 
 export function getStaticPaths() {
@@ -21,7 +20,6 @@ export function getStaticPaths() {
 }
 
 const userData = await ApiMA.getInstance().findById("user", Astro.params.id);
-
 ---
 
 <Layout>
