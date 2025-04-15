@@ -6,6 +6,7 @@ import { ButtonBack } from "@/components/system/backbutton";
 import { ApiMA } from "@/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export function getStaticPaths() {
   const pages = [
@@ -21,7 +22,7 @@ export function getStaticPaths() {
   });
 }
 
-const userData = await ApiMA.getInstance().findById("user", Astro.params.id);
+const data = await ApiMA.getInstance().findById("user", Astro.params.id);
 ---
 
 <Layout>
@@ -33,11 +34,31 @@ const userData = await ApiMA.getInstance().findById("user", Astro.params.id);
   </div>
   <Card className="w-[800px]">
     <CardContent>
-      sdadsadsadsad
+      <Table>
+        <TableCaption>A user data</TableCaption>
+        <TableBody>
+          <TableRow>
+            <TableHead className="w-[100px]"><b>Username</b></TableHead>
+            <TableCell>{data.username}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableHead className="w-[100px]"><b>Email</b></TableHead>
+            <TableCell>{data.email}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableHead className="w-[100px]"><b>Roles</b></TableHead>
+            <TableCell>{data.roles.map(o => o.name).join(", ")}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableHead className="w-[100px]"><b>Enabled</b></TableHead>
+            <TableCell>{data.is_enable}</TableCell>
+          </TableRow>
+        </TableBody>  
+      </Table>
     </CardContent>
     <CardFooter className="flex justify-between">
       <Button variant={"yellow"}>
-        <a href={`/user/edit/${userData.id}`}>Edit</a>
+        <a href={`/user/edit/${data.id}`}>Edit</a>
       </Button>
       <ButtonBack client:only/>
     </CardFooter>

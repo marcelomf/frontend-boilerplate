@@ -3,6 +3,7 @@
 import * as React from "react"
 import {
   type ColumnFiltersState,
+  type ColumnSort,
   type SortingState,
   type VisibilityState,
   flexRender,
@@ -30,13 +31,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useEffect } from "react"
+import type { DataFilter } from "@/api"
 
-interface DataTableMAProps {
-  data: any[],
-  columns: any[]
+export interface DataTableMAControl {
+  page: number,
+  resultPerPage: number,
+  dataFilter: DataFilter
 }
 
-export function DataTableMA({data, columns}: DataTableMAProps) {
+interface DataTableMAProps {
+  setDataControl: any,
+  dataControl: DataTableMAControl,
+  data: any[],
+  columns: any[],
+  totalRecords: number
+}
+
+export function DataTableMA({setDataControl, dataControl, data, columns, totalRecords}: DataTableMAProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -44,6 +56,27 @@ export function DataTableMA({data, columns}: DataTableMAProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+   useEffect(() => {
+      if(sorting && sorting.length > 0) {
+        const sorted: any = {};
+        sorted[sorting[0].id] = sorting[0].desc ? 'desc' : 'asc';
+        dataControl.dataFilter.orderBy = [ sorted ];
+        setDataControl(JSON.parse(JSON.stringify(dataControl)));
+      }
+      
+  }, [sorting]);
+
+  const prevPageMA = () => {
+    if(dataControl.page == 1) return;
+    dataControl.page -= 1;
+    setDataControl(JSON.parse(JSON.stringify(dataControl)));
+  }
+
+  const nextPageMA = () => {
+    dataControl.page += 1;
+    setDataControl(JSON.parse(JSON.stringify(dataControl)));
+  }
 
   const table = useReactTable({
     onSortingChange: setSorting,
@@ -62,16 +95,20 @@ export function DataTableMA({data, columns}: DataTableMAProps) {
     },
     columns: columns,
     data: data
-  })
+  });
+
+  table.getSortedRowModel();
+
+
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filtering by id..."
+          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -154,23 +191,23 @@ export function DataTableMA({data, columns}: DataTableMAProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredRowModel().rows.length == dataControl.resultPerPage ? 
+                dataControl.resultPerPage*dataControl.page : 
+                (dataControl.resultPerPage*(dataControl.page)+table.getFilteredRowModel().rows.length)}{" of "}{totalRecords} record(s).
         </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => prevPageMA()}
+            disabled={dataControl.page == 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => nextPageMA()}
           >
             Next
           </Button>

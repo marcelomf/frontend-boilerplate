@@ -1,11 +1,10 @@
 "use client"
 
-import React, { Suspense, use, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   type ColumnDef,
 } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -26,23 +25,57 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { DataTableMA } from "@/components/datatable"
+import { DataTableMA, type DataTableMAControl } from "@/components/datatable"
 import type { User } from "@/types"
-import { ApiMA } from "@/api"
+import { ApiMA, type DataFilter } from "@/api"
+import { Trash2Icon } from "lucide-react"
+import { toast } from "sonner"
 
-const findAll = async () => {
-  return await ApiMA.getInstance().findAll("user");
-};
+const findFilter = async (dataControl: DataTableMAControl) => {
+  let dataFilter: DataFilter = {
+    skip: (dataControl.page == 1) ? 0 : dataControl.page * dataControl.resultPerPage,
+    take: dataControl.resultPerPage,
+  }
+  if(dataControl.dataFilter.include) dataFilter.include = dataControl.dataFilter.include;
+  if(dataControl.dataFilter.where) dataFilter.where = dataControl.dataFilter.where;
+  if(dataControl.dataFilter.orderBy) dataFilter.orderBy = dataControl.dataFilter.orderBy;
+  return await ApiMA.getInstance().findFilter("user", dataFilter);
+}
 
-const dataUsePromise = findAll();
+const count = async () => {
+  return await ApiMA.getInstance().count("user");
+}
 
 export function UserTable() {
 
-  const data = use(dataUsePromise);
-  
+  const [data, setData] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [dataControl, setDataControl] = useState({page: 1, resultPerPage: 10, dataFilter: {}});
+
   useEffect(() => {
-    console.log('oi');
-  }, []);
+    findFilter(dataControl).then((responseFilter) => {
+      count().then(totalRecords => {
+        
+        setTotalRecords(totalRecords);
+        setData(responseFilter);
+      });
+    });
+  }, [dataControl]);
+  
+  const remove = async function(item: any) {
+    try {
+      toast.info("Removing user ...");
+      await ApiMA.getInstance().remove("user", item.id);
+      toast.success("Successfuly removed!");
+      setData(await findFilter(dataControl));
+      setTotalRecords(await count());
+    } catch(e) {
+      console.error(e);
+      // @ts-ignore
+      toast.error(e?.response?.data?.message || e?.message || String(e));
+    }
+    return undefined;
+  }
 
   const columns: ColumnDef<User>[] = [
     {
@@ -88,11 +121,7 @@ export function UserTable() {
       accessorKey: "roles",
       header: ({ column }) => {
         return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Roles <ArrowUpDown />
-          </Button>
+          <span> Roles </span>
         )
       }, // @ts-ignore
       cell: ({ row }) => <div>{row.getValue("roles")?.map(o => o.name).join(", ")}</div>,
@@ -104,53 +133,50 @@ export function UserTable() {
         const item = row.original
   
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0" style={{cursor: 'pointer'}}>
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem style={{cursor: 'pointer'}}
-                onClick={() => navigator.clipboard.writeText(item.id)}
-              > Copy ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <a href={`/user/show/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer'}}>Show</DropdownMenuItem></a>
-              <a href={`/user/edit/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer'}}>Edit</DropdownMenuItem></a>
-              <DropdownMenuItem style={{cursor: 'pointer'}}>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline">Remove</Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure to remove this item ?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete your
-                        item and remove your data from our servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className='flex'>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <a style={{cursor: 'pointer !important'}}><Trash2Icon /></a>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure to remove this item ?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete your
+                    item and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel style={{cursor: 'pointer !important'}}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction style={{cursor: 'pointer !important'}} onClick={() => { remove(item) }}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0" style={{cursor: 'pointer !important'}}>
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem style={{cursor: '!important'}}
+                  onClick={() => navigator.clipboard.writeText(item.id)}
+                > Copy ID
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <a href={`/user/show/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer !important'}}>Show</DropdownMenuItem></a>
+                <a href={`/user/edit/${item.id}`}><DropdownMenuItem style={{cursor: 'pointer !important'}}>Edit</DropdownMenuItem></a>         
+              </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
         )
       },
     },
   ]
 
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
-      <DataTableMA data={data} columns={columns}></DataTableMA>
-    </Suspense>
-
+      <DataTableMA setDataControl={setDataControl} dataControl={dataControl} data={data} columns={columns} totalRecords={totalRecords}></DataTableMA>
   )
 }

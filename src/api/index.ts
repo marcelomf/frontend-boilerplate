@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export interface DataFilter {
-  where: any;
-  include: any;
-  orderBy: any;
-  take: number;
-  skip: number;
+  where?: any;
+  include?: any;
+  orderBy?: any;
+  take?: number;
+  skip?: number;
 }
 
 export class ApiMA {
@@ -59,14 +59,14 @@ export class ApiMA {
   }
 
   async findFilter(moduleName: string, dataFilter: DataFilter) {
-    let response = await this.axios.post(`/${moduleName}`, dataFilter);
+    let response = await this.axios.post(`/${moduleName}/filter`, dataFilter);
     this.lastResponseHeaders = response.headers;
     return response.data;
   }
 
-  async count(moduleName: string) {
+  async count(moduleName: string): Promise<number> {
     let response = await this.axios.get(`/${moduleName}/count`);
     this.lastResponseHeaders = response.headers;
-    return response.data;
+    return parseInt(response.data);
   }
 }
