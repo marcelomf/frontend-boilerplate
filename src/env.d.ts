@@ -1,6 +1,5 @@
 interface ImportMetaEnv {
-  readonly PUBLIC_URL_TICKERBIO: string;
-  readonly TOKEN_TICKERBIO: string;
+  readonly URL_API: string;
 }
 
 interface ImportMeta {

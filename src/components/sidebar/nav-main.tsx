@@ -46,30 +46,23 @@ export function NavMain({
               <SidebarMenuButton tooltip={item.title}>
               {item.icon && <item.icon />}
               <a href={item.url}>
-                  <span>{item.title}</span>
+                {item.title}
               </a>
             </SidebarMenuButton>
               :
               <><CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
                     {item.icon && <item.icon />}
-                    {!item.items ?
-                      <a href={item.url}>
-                        <span>{item.title}</span>
-                      </a>
-                      :
-                      <span>{item.title}</span>}
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </CollapsibleTrigger><CollapsibleContent>
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem key={subItem.title}>
                           <CollapsibleTrigger asChild>
-                            <SidebarMenuSubButton>
+                            <SidebarMenuSubButton href={subItem.url}>
                               {subItem.icon && <item.icon />}
-                              <a href={subItem.url}>
-                                <span>{subItem.title}</span>
-                              </a>
+                              <span>{subItem.title}</span>
                             </SidebarMenuSubButton>
                           </CollapsibleTrigger>
                         </SidebarMenuSubItem>
