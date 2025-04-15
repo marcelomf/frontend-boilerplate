@@ -1,0 +1,46 @@
+---
+export const prerender = false
+
+import Layout from "@/layouts/Layout.astro";
+import { ButtonBack } from "@/components/system/backbutton";
+import { ApiMA } from "@/api";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+
+export function getStaticPaths() {
+  const pages = [
+    {
+      id: undefined,
+    }
+  ];
+
+  return pages.map(({ id }) => {
+    return {
+      params: { id },
+    };
+  });
+}
+
+const userData = await ApiMA.getInstance().findById("user", Astro.params.id);
+
+---
+
+<Layout>
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-primary">Show</h1>
+      <p class="text-muted-foreground">User</p>
+    </div>
+  </div>
+  <Card className="w-[800px]">
+    <CardContent>
+      sdadsadsadsad
+    </CardContent>
+    <CardFooter className="flex justify-between">
+      <Button variant={"yellow"}>
+        <a href={`/user/edit/${userData.id}`}>Edit</a>
+      </Button>
+      <ButtonBack client:only/>
+    </CardFooter>
+  </Card>
+</Layout>

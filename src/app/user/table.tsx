@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Suspense, use } from 'react';
+import React, { Suspense, use, useEffect } from 'react';
 import {
   type ColumnDef,
 } from "@tanstack/react-table"
@@ -23,12 +23,16 @@ const findAll = async () => {
   return await ApiMA.getInstance().findAll("user");
 };
 
-const userPromise = findAll();
+const dataUsePromise = findAll();
 
 export function UserTable() {
 
-  const data = use(userPromise);
+  const data = use(dataUsePromise);
   
+  useEffect(() => {
+    console.log('oi');
+  }, []);
+
   const columns: ColumnDef<User>[] = [
     {
       accessorKey: "username",
@@ -70,6 +74,19 @@ export function UserTable() {
       cell: ({ row }) => <div>{row.getValue("locale")}</div>,
     },
     {
+      accessorKey: "roles",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          > Roles <ArrowUpDown />
+          </Button>
+        )
+      }, // @ts-ignore
+      cell: ({ row }) => <div>{row.getValue("roles")?.map(o => o.name).join(", ")}</div>,
+    },
+    {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -90,8 +107,8 @@ export function UserTable() {
               > Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem style={{cursor: 'pointer'}}>Show</DropdownMenuItem>
-              <DropdownMenuItem style={{cursor: 'pointer'}}>Edit</DropdownMenuItem>
+              <DropdownMenuItem style={{cursor: 'pointer'}}><a href={`/user/show/${item.id}`}>Show</a></DropdownMenuItem>
+              <DropdownMenuItem style={{cursor: 'pointer'}}><a href={`/user/edit/${item.id}`}>Edit</a></DropdownMenuItem>
               <DropdownMenuItem style={{cursor: 'pointer'}}>Remove</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

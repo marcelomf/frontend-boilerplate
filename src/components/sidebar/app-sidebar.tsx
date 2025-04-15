@@ -37,12 +37,12 @@ const data = {
     },
     {
       title: "Users",
-      url: "/security/user",
+      url: "/user",
       icon: SquareTerminal
     },
     {
       title: "Roles",
-      url: "/security/role",
+      url: "/role",
       icon: SquareTerminal
     }
   ]

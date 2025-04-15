@@ -46,7 +46,7 @@ export class ApiMA {
     return response.data;
   }
 
-  async findById(moduleName: string, id: string) {
+  async findById(moduleName: string, id: string | undefined) {
     let response = await this.axios.get(`/${moduleName}/${id}`);
     this.lastResponseHeaders = response.headers;
     return response.data;

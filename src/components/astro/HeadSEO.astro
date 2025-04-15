@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import "@/styles/fonts.css";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title?: string | undefined;
@@ -31,6 +32,8 @@ const { title, description, ogImage } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+
+<ClientRouter />
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalURL} />
