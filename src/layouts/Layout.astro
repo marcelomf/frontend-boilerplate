@@ -1,0 +1,29 @@
+---
+import "@/styles/global.css";
+import "@/styles/fonts.css";
+import SideBarMA from "@/app/sidebar";
+import HeadSEO from "@/components/astro/HeadSEO.astro";
+import Footer from "@/components/astro/Footer.astro";
+
+/**
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+ */
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <HeadSEO title="Your system" description="Your system description" />
+  </head>
+  <body>
+    <div class="flex">
+      <SideBarMA client:load>
+        <slot />   
+      </SideBarMA>
+    </div>
+    <Footer></Footer>
+  </body>
+</html>

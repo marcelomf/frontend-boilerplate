@@ -1,0 +1,9 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { UserTable } from "@/app/security/user/table";
+---
+
+<Layout>
+  <UserTable client:only>
+  </UserTable>
+</Layout>
