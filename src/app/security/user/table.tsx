@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import React, { Suspense, use } from 'react';
 import {
   type ColumnDef,
 } from "@tanstack/react-table"
@@ -16,58 +16,32 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DataTableMA } from "@/components/datatable"
-import type { Payment } from "@/types/default"
+import type { User } from "@/types"
+import { ApiMA } from "@/api"
+
+const findAll = async () => {
+  return await ApiMA.getInstance().findAll("user");
+};
+
+const userPromise = findAll();
 
 export function UserTable() {
 
-  //console.log(import.meta.env.BASE_URL);
-
-  const data: Payment[] = [
-    {
-      id: "m5gr84i9",
-      amount: 316,
-      status: "success",
-      email: "ken99@example.com",
-    },
-    {
-      id: "3u1reuv4",
-      amount: 242,
-      status: "success",
-      email: "Abe45@example.com",
-    },
-    {
-      id: "derv1ws0",
-      amount: 837,
-      status: "processing",
-      email: "Monserrat44@example.com",
-    },
-    {
-      id: "5kma53ae",
-      amount: 874,
-      status: "success",
-      email: "Silas22@example.com",
-    },
-    {
-      id: "bhqecj4p",
-      amount: 721,
-      status: "failed",
-      email: "carmella@example.com",
-    },
-  ]
+  const data = use(userPromise);
   
-  const columns: ColumnDef<Payment>[] = [
+  const columns: ColumnDef<User>[] = [
     {
-      accessorKey: "status",
+      accessorKey: "username",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Status <ArrowUpDown />
+          > Username <ArrowUpDown />
           </Button>
         )
       },
-      cell: ({ row }) => <div>{row.getValue("status")}</div>,
+      cell: ({ row }) => <div>{row.getValue("username")}</div>,
     },
     {
       accessorKey: "email",
@@ -83,17 +57,17 @@ export function UserTable() {
       cell: ({ row }) => <div>{row.getValue("email")}</div>,
     },
     {
-      accessorKey: "amount",
+      accessorKey: "locale",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Amount <ArrowUpDown />
+          > Locale <ArrowUpDown />
           </Button>
         )
       },
-      cell: ({ row }) => <div>{row.getValue("amount")}</div>,
+      cell: ({ row }) => <div>{row.getValue("locale")}</div>,
     },
     {
       id: "actions",
@@ -127,6 +101,9 @@ export function UserTable() {
   ]
 
   return (
-    <DataTableMA data={data} columns={columns}></DataTableMA>
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <DataTableMA data={data} columns={columns}></DataTableMA>
+    </Suspense>
+
   )
 }
