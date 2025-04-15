@@ -14,11 +14,12 @@ import { Toaster } from "@/components/ui/sonner"
   </head>
   <body>
     <div class="flex">
-      <Toaster client:only richColors />
+      
       <SideBarMA client:load>
         <slot />   
       </SideBarMA>
     </div>
+    <Toaster client:only richColors />
     <Footer>
     </Footer>
   </body>
