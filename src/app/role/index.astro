@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import { RoleTable } from "@/app/role/table";
+import { Button } from "@/components/ui/button";
+// import { RoleCards } from "@/app/role/cards";
+---
+
+<Layout>
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-primary">Roles</h1>
+      <p class="text-muted-foreground">Manage roles</p>
+    </div>
+      <Button variant={"blue"}>
+        <a href="/role/new">+ Add Role</a>
+      </Button>
+  </div>
+  <!-- <RoleCards client:only /> -->
+  <RoleTable client:only />
+</Layout>
