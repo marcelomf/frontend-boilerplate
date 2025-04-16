@@ -1,14 +1,10 @@
 import { SunIcon, MoonIcon, Pointer } from "lucide-react"
 import { Button } from "../ui/button"
-import React from "react";
+import React, { useEffect } from "react";
 
+export function ThemeToggle() {
 
-export class ThemeToggle extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  getThemePreference = () => {
+  const getThemePreference = () => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme')
     }
@@ -17,7 +13,7 @@ export class ThemeToggle extends React.Component {
       : 'light'
   }
 
-  handleToggleClick = () => {
+  const handleToggleClick = () => {
     const element = document.documentElement
     element.classList.toggle('dark')
 
@@ -25,8 +21,9 @@ export class ThemeToggle extends React.Component {
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
   }
 
-  componentDidMount() {
-    const isDarkCurrent = this.getThemePreference() === 'dark'
+  useEffect(() => {
+
+    const isDarkCurrent = getThemePreference() === 'dark'
     document.documentElement.classList[isDarkCurrent ? 'add' : 'remove']('dark')
   
     if (typeof localStorage !== 'undefined') {
@@ -40,16 +37,15 @@ export class ThemeToggle extends React.Component {
       })
     }
     
-    document.getElementById('themeToggle').addEventListener('click', this.handleToggleClick)
-  }
+    document.getElementById('themeToggle').addEventListener('click', handleToggleClick)
 
-  render() {
-    return (
-      <Button variant="ghost" size="icon" id="themeToggle" style={{cursor: 'pointer'}}>
-        <SunIcon className="h-[1.5rem] w-[1.3rem] dark:hidden" />
-        <MoonIcon className="hidden h-5 w-5 dark:block" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
-    )
-  }
+  },[]);
+
+  return (
+    <Button variant="ghost" size="icon" id="themeToggle" style={{cursor: 'pointer'}}>
+      <SunIcon className="h-[1.5rem] w-[1.3rem] dark:hidden" />
+      <MoonIcon className="hidden h-5 w-5 dark:block" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  )
 }

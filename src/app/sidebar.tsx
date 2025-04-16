@@ -1,15 +1,24 @@
+'use client'
+
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { ThemeToggle } from "@/components/system/themetoggle";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from "@/components/ui/breadcrumb";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
+import { useEffect } from 'react';
 
 interface Props {
   children: React.ReactNode
-  pathname: string
  }
  
  export default function SideBarMA(props: Props) {
+
+  let location;
+  let canonicalURL;
+  useEffect(() => {
+      location = window.location;
+      canonicalURL = new URL(location.pathname, location.href); 
+  },[]);
 
   function formatBread(val: string) {
     val = String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -34,7 +43,7 @@ interface Props {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{formatBread(props.pathname)}</BreadcrumbPage>
+                  <BreadcrumbPage>{formatBread(location?.pathname)}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
