@@ -120,9 +120,7 @@ export function UserTable() {
     {
       accessorKey: "roles",
       header: ({ column }) => {
-        return (
-          <span> Roles </span>
-        )
+        return (<span> Roles </span>)
       }, // @ts-ignore
       cell: ({ row }) => <div>{row.getValue("roles")?.map(o => o.name).join(", ")}</div>,
     },
@@ -140,10 +138,10 @@ export function UserTable() {
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure to remove this item ?</AlertDialogTitle>
+                  <AlertDialogTitle>Are you sure to remove this user ?</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently delete your
-                    item and remove your data from our servers.
+                    user and remove your data from our servers.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

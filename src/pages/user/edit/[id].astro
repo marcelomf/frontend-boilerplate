@@ -29,7 +29,7 @@ const userData = await ApiMA.getInstance().findById("user", Astro.params.id);
       <p class="text-muted-foreground">User</p>
     </div>
   </div>
-  <div class="w-[800px]">
+  <div class="max-w-[800px]">
     <UserSave data={userData} client:only />
   </div>
 </Layout>

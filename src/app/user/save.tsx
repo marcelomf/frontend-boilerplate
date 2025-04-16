@@ -8,10 +8,13 @@ import { UserFields } from "./fields"
 import { ApiMA } from "@/api"
 import { toast } from "sonner"
 import { queryParam } from "@/lib/utils"
+import { useEffect, useState } from "react"
+import { navigate } from "astro:transitions/client";
 
 // @ts-ignore
 export function UserSave({data}) {
 
+  const [rerender, setRerender] = useState(true);
   const form = useForm();
   const onSubmit = async function() {
     try {
@@ -19,6 +22,7 @@ export function UserSave({data}) {
       await ApiMA.getInstance().save("user", form.getValues());
       toast.success("Successfuly saved!");
       if(queryParam("forceBack")) history.go(-1);
+      navigate("/user/new",{history: "replace"});
     } catch(e) {
       console.error(e)
       // @ts-ignore
@@ -26,7 +30,10 @@ export function UserSave({data}) {
     }
   }
 
-  return (
+  useEffect(() => {
+  }, [rerender]);
+
+  return (rerender &&
     <Form {...form}>
       <UserFields form={form} valueFields={data} callbackSubmit={onSubmit}></UserFields>
     </Form>
