@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import {
   Form,
 } from "@/components/ui/form"
-import { UserFields } from "./fields"
+import { RoleFields } from "./fields"
 import { ApiMA } from "@/api"
 import { toast } from "sonner"
 import { queryParam, urlPath } from "@/lib/utils"
@@ -12,17 +12,17 @@ import { useEffect, useState } from "react"
 import { navigate } from "astro:transitions/client";
 
 // @ts-ignore
-export function UserSave({data}) {
+export function RoleSave({data}) {
 
   const [rerender, setRerender] = useState(true);
   const form = useForm();
   const onSubmit = async function() {
     try {
-      toast.info("Saving user ...");
-      await ApiMA.getInstance().save("user", form.getValues());
+      toast.info("Saving role ...");
+      await ApiMA.getInstance().save("role", form.getValues());
       toast.success("Successfuly saved!");
       if(queryParam("forceBack")) history.go(-1);
-      if(urlPath()?.indexOf("/user/new") != -1) navigate("/user/new",{history: "replace"});
+      if(urlPath()?.indexOf("/role/new") != -1) navigate("/role/new",{history: "replace"});
     } catch(e) {
       console.error(e)
       // @ts-ignore
@@ -35,7 +35,7 @@ export function UserSave({data}) {
 
   return (rerender &&
     <Form {...form}>
-      <UserFields form={form} valueFields={data} callbackSubmit={onSubmit}></UserFields>
+      <RoleFields form={form} valueFields={data} callbackSubmit={onSubmit}></RoleFields>
     </Form>
   )
 }

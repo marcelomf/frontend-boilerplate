@@ -14,24 +14,28 @@ import { ApiMA } from "@/api"
 import { Suspense, use } from "react"
 import { ButtonBack } from "@/components/system/backbutton"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Combobox } from "@/components/ui/combobox"
 
 const findAll = async (moduleName: string) => {
   return await ApiMA.getInstance().findAll(moduleName);
 };
 
+const dataUserPromise = findAll("user");
 const dataRolePromise = findAll("role");
 
 // @ts-ignore
-export function UserFields({form, valueFields, callbackSubmit}) {
+export function RoleFields({form, valueFields, callbackSubmit}) {
 
+  const dataUser = use(dataUserPromise);
   const dataRole = use(dataRolePromise);
-  let selectedDataRole: string[] | undefined = [];
+  let selectedDataUser: string[] | undefined = [];
 
   if(valueFields && valueFields.id) {
     // @ts-ignore
-    selectedDataRole = dataRole.filter(o => valueFields.roles.map(o2 => o2.id).includes(o.id)).map(o => {return o.id});
+    selectedDataUser = dataUser.filter(o => valueFields.users.map(o2 => o2.id).includes(o.id)).map(o => {return o.id});
     for(let field in valueFields) {
       if(field == "roles") continue;
+      if(field == "users") continue;
       form.setValue(field, valueFields[field]);
     }
   }
@@ -41,10 +45,10 @@ export function UserFields({form, valueFields, callbackSubmit}) {
         <form onSubmit={form.handleSubmit((callbackSubmit))} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -54,23 +58,10 @@ export function UserFields({form, valueFields, callbackSubmit}) {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="code"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Code</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -80,33 +71,38 @@ export function UserFields({form, valueFields, callbackSubmit}) {
           />
           <FormField
             control={form.control}
-            name="is_enable"
+            name="users"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Enabled</FormLabel>
-                <FormControl>
-                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="roles"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Roles</FormLabel>
+                <FormLabel>Users</FormLabel>
                 <FormControl>
                   <MultiSelect
                     {...field} 
                     // @ts-ignore
-                    options={dataRole.map(d => {return {value: d.id, label: d.name}})}
+                    options={dataUser.map(d => {return {value: d.id, label: d.username}})}
                     onValueChange={field.onChange}
-                    defaultValue={selectedDataRole}
-                    placeholder="Select roles"
+                    defaultValue={selectedDataUser}
+                    placeholder="Select users"
                     variant="inverted"
                     animation={2}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="top_role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Top Role</FormLabel>
+                <FormControl>
+                  <Combobox 
+                    data={dataRole.map(d => {return {value: d.id, label: d.name}})}
+                    setValue={field.onChange}
+                    value={field.value}
+                    selectPlaceholder="Select top role"
                   />
                 </FormControl>
                 <FormMessage />

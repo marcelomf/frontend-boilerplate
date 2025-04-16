@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import Layout from "@/layouts/Layout.astro";
-import { UserSave } from "@/app/user/save";
+import { RoleSave } from "@/app/role/save";
 import { ApiMA } from "@/api";
 
 export function getStaticPaths() {
@@ -19,17 +19,17 @@ export function getStaticPaths() {
   });
 }
 
-const data = await ApiMA.getInstance().findById("user", Astro.params.id);
+const data = await ApiMA.getInstance().findById("role", Astro.params.id);
 ---
 
 <Layout>
   <div class="flex items-center justify-between">
     <div>
       <h1 class="text-3xl font-bold tracking-tight text-primary">Edit</h1>
-      <p class="text-muted-foreground">User</p>
+      <p class="text-muted-foreground">Role</p>
     </div>
   </div>
   <div class="max-w-[800px]">
-    <UserSave data={data} client:only />
+    <RoleSave data={data} client:only />
   </div>
 </Layout>

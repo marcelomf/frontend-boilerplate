@@ -1,20 +1,16 @@
-export interface Payment {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
 export interface User {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  id: string;
+  username: string;
+  password: string;
+  is_enable: boolean;
+  roles: Role[];
 }
 
 export interface Role {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  id: string;
+  name: string;
+  code: string;
+  users: User[];
+  top_role: Role;
+  roles: Role[];
 }

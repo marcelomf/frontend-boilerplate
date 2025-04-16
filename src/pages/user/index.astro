@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import Layout from "@/layouts/Layout.astro";
-import { UserTable } from "@/app/user/table";
+// import { UserTable } from "@/app/user/table";
 import { Button } from "@/components/ui/button";
 import { UserCards } from "@/app/user/cards";
 ---
@@ -17,6 +17,6 @@ import { UserCards } from "@/app/user/cards";
         <a href="/user/new">+ Add User</a>
       </Button>
   </div>
+  <UserCards client:only />
   <!-- <UserTable client:only /> -->
-   <UserCards client:only />
 </Layout>

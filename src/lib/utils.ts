@@ -12,4 +12,6 @@ export function queryParam(paramName: string) {
   return params[paramName];
 }
 
-
+export function urlPath() {
+  return window.location.pathname;
+}

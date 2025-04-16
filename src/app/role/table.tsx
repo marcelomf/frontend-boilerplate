@@ -7,10 +7,10 @@ import {
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DataTableMA, type DataTableMAControl } from "@/components/datatable"
-import type { User } from "@/types"
+import type { Role } from "@/types"
 import { ApiMA, type DataFilter } from "@/api"
 import { toast } from "sonner"
-import { UserActions } from './actions';
+import { RoleActions } from './actions';
 
 const findFilter = async (dataControl: DataTableMAControl) => {
   let dataFilter: DataFilter = {
@@ -20,14 +20,14 @@ const findFilter = async (dataControl: DataTableMAControl) => {
   if(dataControl.dataFilter.include) dataFilter.include = dataControl.dataFilter.include;
   if(dataControl.dataFilter.where) dataFilter.where = dataControl.dataFilter.where;
   if(dataControl.dataFilter.orderBy) dataFilter.orderBy = dataControl.dataFilter.orderBy;
-  return await ApiMA.getInstance().findFilter("user", dataFilter);
+  return await ApiMA.getInstance().findFilter("role", dataFilter);
 }
 
 const count = async () => {
-  return await ApiMA.getInstance().count("user");
+  return await ApiMA.getInstance().count("role");
 }
 
-export function UserTable() {
+export function RoleTable() {
 
   const [data, setData] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -43,10 +43,10 @@ export function UserTable() {
     });
   }, [dataControl]);
   
-  const remove = async function(item: User) {
+  const remove = async function(item: Role) {
     try {
-      toast.info("Removing user ...");
-      await ApiMA.getInstance().remove("user", item.id);
+      toast.info("Removing role ...");
+      await ApiMA.getInstance().remove("role", item.id);
       toast.success("Successfuly removed!");
       setData(await findFilter(dataControl));
       setTotalRecords(await count());
@@ -58,45 +58,39 @@ export function UserTable() {
     return undefined;
   }
 
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<Role>[] = [
     {
-      accessorKey: "username",
+      accessorKey: "name",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Username <ArrowUpDown />
+          > Name <ArrowUpDown />
           </Button>
         )
       },
-      cell: ({ row }) => <div>{row.getValue("username")}</div>,
+      cell: ({ row }) => <div>{row.getValue("name")}</div>,
     },
     {
-      accessorKey: "email",
+      accessorKey: "code",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Email <ArrowUpDown />
+          > Code <ArrowUpDown />
           </Button>
         )
       },
-      cell: ({ row }) => <div>{row.getValue("email")}</div>,
+      cell: ({ row }) => <div>{row.getValue("code")}</div>,
     },
     {
-      accessorKey: "is_enable",
+      accessorKey: "users",
       header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          > Enabled <ArrowUpDown />
-          </Button>
-        )
-      },
-      cell: ({ row }) => <div>{row.getValue("is_enable")}</div>,
+        return (<span> Users </span>)
+      }, // @ts-ignore
+      cell: ({ row }) => <div>{row.getValue("users")?.map(o => o.username).join(", ")}</div>,
     },
     {
       accessorKey: "roles",
@@ -114,7 +108,7 @@ export function UserTable() {
       cell: ({ row }) => {
         const item = row.original
         return (
-          <UserActions item={item} remove={remove} />
+          <RoleActions item={item} remove={remove} />
         )
       },
     },

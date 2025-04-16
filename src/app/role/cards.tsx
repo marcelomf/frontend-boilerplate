@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { UserActions } from "./actions";
-import type { User } from "@/types";
+import { RoleActions } from "./actions";
+import type { Role } from "@/types";
 
 const findFilter = async (dataControl: DataTableMAControl) => {
   let dataFilter: DataFilter = {
@@ -15,16 +15,16 @@ const findFilter = async (dataControl: DataTableMAControl) => {
   if(dataControl.dataFilter.include) dataFilter.include = dataControl.dataFilter.include;
   if(dataControl.dataFilter.where) dataFilter.where = dataControl.dataFilter.where;
   if(dataControl.dataFilter.orderBy) dataFilter.orderBy = dataControl.dataFilter.orderBy;
-  return await ApiMA.getInstance().findFilter("user", dataFilter);
+  return await ApiMA.getInstance().findFilter("role", dataFilter);
 }
 
 const count = async () => {
-  return await ApiMA.getInstance().count("user");
+  return await ApiMA.getInstance().count("role");
 }
 
 const FIX_RESULT_PER_PAGE = 9;
 
-export function UserCards() {
+export function RoleCards() {
 
   const [data, setData] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -39,10 +39,10 @@ export function UserCards() {
     });
   }, [dataControl]);
   
-  const remove = async function(item: User) {
+  const remove = async function(item: Role) {
     try {
-      toast.info("Removing user ...");
-      await ApiMA.getInstance().remove("user", item.id);
+      toast.info("Removing role ...");
+      await ApiMA.getInstance().remove("role", item.id);
       toast.success("Successfuly removed!");
       setData(await findFilter(dataControl));
       setTotalRecords(await count());
@@ -67,15 +67,15 @@ export function UserCards() {
           return (
             <Card className="min-w-1/2 m-1" key={item.id}>
               <CardHeader>
-                <CardTitle className="text-center"><b>{item.username}</b></CardTitle>
+                <CardTitle className="text-center"><b>{item.name}</b></CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                {item.email}<br />
-                {item.roles.map(o => o.name).join(", ")}<br />
-                {item.is_enable}
+                {item.code}<br />
+                {item.users.map(o => o.username).join(", ")}<br />
+                {item.roles.map(o => o.name).join(", ")}
               </CardContent>
               <CardFooter className="w-full">
-                <UserActions item={item} remove={remove} />
+                <RoleActions item={item} remove={remove} />
               </CardFooter>
             </Card>
           )
