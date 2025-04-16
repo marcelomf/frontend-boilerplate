@@ -44,12 +44,14 @@ export function NavMain({
           >
             <SidebarMenuItem>
               {!item.items ?
-              <SidebarMenuButton tooltip={item.title}>
-              {item.icon && <item.icon />}
-              <a href={item.url}>
-                {item.title}
+              <a href={item.url} style={{cursor: "pointer"}}>
+                <SidebarMenuButton tooltip={item.title}>
+                {item.icon && <item.icon />}
+                
+                  {item.title}
+                
+                </SidebarMenuButton>
               </a>
-            </SidebarMenuButton>
               :
               <><CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title}>
