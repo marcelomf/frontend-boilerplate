@@ -13,5 +13,8 @@ export function queryParam(paramName: string) {
 }
 
 export function urlPath() {
-  return window.location.pathname;
+  if (typeof window !== "undefined") {
+    return window.location.pathname;
+  }
+  return "";
 }

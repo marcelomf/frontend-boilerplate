@@ -6,9 +6,17 @@ import { Separator } from "@radix-ui/react-separator";
 
 interface Props {
   children: React.ReactNode
+  pathname: string
  }
  
  export default function SideBarMA(props: Props) {
+
+  function formatBread(val: string) {
+    val = String(val).charAt(0).toUpperCase() + String(val).slice(1);
+    val = val.replace("/", "");
+    return val;
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -20,13 +28,13 @@ interface Props {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
+                  <BreadcrumbLink href="/">
+                    Home
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  <BreadcrumbPage>{formatBread(props.pathname)}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

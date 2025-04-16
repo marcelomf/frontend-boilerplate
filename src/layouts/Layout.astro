@@ -10,12 +10,11 @@ import { Toaster } from "@/components/ui/sonner"
 <!doctype html>
 <html lang="en">
   <head>
-    <HeadSEO title="Your system" description="Your system description" />
+    <HeadSEO title="System" description="System description" />
   </head>
   <body>
     <div class="flex">
-      
-      <SideBarMA client:load>
+      <SideBarMA client:load pathname={Astro.url.pathname}>
         <slot />   
       </SideBarMA>
     </div>

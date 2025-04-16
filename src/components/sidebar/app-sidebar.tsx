@@ -1,5 +1,5 @@
 import * as React from "react"
-import { SquareTerminal } from "lucide-react"
+import { Users, ShieldUser, LayoutDashboard } from "lucide-react"
 
 import {
   Sidebar,
@@ -19,31 +19,19 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
-      url: "#23",
-      icon: SquareTerminal,
-      items: [
-        {
-          title: "Logs",
-          url: "#321",
-          icon: SquareTerminal
-        },
-        {
-          title: "Monitor",
-          url: "#123",
-          icon: SquareTerminal
-        }        
-      ]
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard
     },
     {
       title: "Users",
       url: "/user",
-      icon: SquareTerminal
+      icon: Users
     },
     {
       title: "Roles",
       url: "/role",
-      icon: SquareTerminal
+      icon: ShieldUser
     }
   ]
 }
@@ -52,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
           <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-              <span>System Logo</span>
+              <span>System</span>
             </SidebarHeader>
             <SidebarContent>
               <NavMain items={data.navMain} />
