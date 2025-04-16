@@ -13,16 +13,16 @@ interface Props {
  
  export default function SideBarMA(props: Props) {
 
-  let location;
-  let canonicalURL;
+  let location = window.location;
+  let canonicalURL = new URL(location.pathname, location.origin);
   useEffect(() => {
       location = window.location;
-      canonicalURL = new URL(location.pathname, location.href); 
+      canonicalURL = new URL(location.pathname, location.origin); 
   },[]);
 
   function formatBread(val: string) {
-    val = String(val).charAt(0).toUpperCase() + String(val).slice(1);
     val = val.replace("/", "");
+    val = String(val).charAt(0).toUpperCase() + String(val).slice(1);
     return val;
   }
 
