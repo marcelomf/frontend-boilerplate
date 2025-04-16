@@ -1,5 +1,4 @@
-'use client'
-
+import './../envConfig'
 import "@/app/globals.css";
 import SideBarMA from "@/app/sidebar";
 import HeadSEO from "./head";
@@ -48,6 +47,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-
 }
-

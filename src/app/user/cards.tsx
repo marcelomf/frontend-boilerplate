@@ -1,3 +1,5 @@
+'use client'
+
 import { ApiMA, type DataFilter } from "@/api";
 import type { DataTableMAControl } from "@/components/datatable";
 import { Button } from "@/components/ui/button";

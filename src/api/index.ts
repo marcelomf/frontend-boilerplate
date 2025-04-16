@@ -10,14 +10,14 @@ export interface DataFilter {
 
 export class ApiMA {
   axios: any;
-  baseUrl: string;
+  baseUrl: string | undefined;
   static instance: ApiMA;
   lastResponseHeaders: any;
 
   constructor() {
-    this.baseUrl = import.meta.env.PUBLIC_API;
+    this.baseUrl = process.env.NEXT_PUBLIC_API;
     axios.defaults.baseURL = this.baseUrl;
-    axios.defaults.headers.common['Authorization'] = import.meta.env.PUBLIC_TOKEN;
+    axios.defaults.headers.common['Authorization'] = process.env.NEXT_PUBLIC_TOKEN;
     axios.defaults.headers.post['Content-Type'] = 'application/json';
     this.axios = axios.create();
   }

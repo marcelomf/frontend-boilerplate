@@ -9,7 +9,6 @@ import { ApiMA } from "@/api"
 import { toast } from "sonner"
 import { queryParam, urlPath } from "@/lib/utils"
 import { useEffect, useState } from "react"
-import { navigate } from "astro:transitions/client";
 
 // @ts-ignore
 export function UserSave({data}) {
@@ -22,7 +21,7 @@ export function UserSave({data}) {
       await ApiMA.getInstance().save("user", form.getValues());
       toast.success("Successfuly saved!");
       if(queryParam("forceBack")) history.go(-1);
-      if(urlPath()?.indexOf("/user/new") != -1) navigate("/user/new",{history: "replace"});
+      if(urlPath()?.indexOf("/user/new") != -1) history.replace("/user/new");
     } catch(e) {
       console.error(e)
       // @ts-ignore
