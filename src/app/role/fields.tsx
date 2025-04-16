@@ -102,8 +102,7 @@ export function RoleFields({form, valueFields, callbackSubmit}) {
                     data={dataRole.map(d => {return {value: d.id, label: d.name}})}
                     setValue={field.onChange}
                     value={field.value}
-                    selectPlaceholder="Select top role"
-                    className="w-full"
+                    selectPlaceholder="Select top role" 
                   />
                 </FormControl>
                 <FormMessage />
