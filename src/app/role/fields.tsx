@@ -103,6 +103,7 @@ export function RoleFields({form, valueFields, callbackSubmit}) {
                     setValue={field.onChange}
                     value={field.value}
                     selectPlaceholder="Select top role"
+                    className="w-full"
                   />
                 </FormControl>
                 <FormMessage />

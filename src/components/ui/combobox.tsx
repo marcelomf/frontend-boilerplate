@@ -30,7 +30,7 @@ export function Combobox({ data, selectPlaceholder, setValue, value }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-between"
         >
           {valueInternal
             ? data.find((item) => item.value === valueInternal)?.label
@@ -38,7 +38,7 @@ export function Combobox({ data, selectPlaceholder, setValue, value }) {
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
           <CommandInput placeholder="Search item..." className="h-9" />
           <CommandList>
