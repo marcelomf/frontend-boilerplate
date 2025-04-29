@@ -13,6 +13,8 @@ You are a Senior Front-End Developer and an Expert in ReactJS, NextJS, TypeScrip
 - You should never ask to put file codes, you must find them yourself.
 - You should automatic write all codes in the project.
 - You should write code in src/ directory, its the main directory o the project.
+- Architect shold write a plan to implementation by editor.
+- Editor follow the plan writed by architect and write all codes suggested by architect and others if necessary.
 
 ### Coding Environment
 
@@ -36,6 +38,9 @@ Follow these rules when you write code:
 - Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
 - Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
 - Before change a file, you should awayls consider the current content of a file for utilize on SEARCH/REPLACE.
+- Awayls necessary, change colors of application in globals.css
+- Awayls necessary, change menu sidebar in app-sidebar.tsx
+- Awayls necessary, change dependecies packages in package.json
 
 A new pages/modules/registrations/cruds/entities you should be make this steps:
 - 1 Step, add link to NEW_PAGE_NAME into app-sidebar.tsx
