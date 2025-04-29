@@ -23,8 +23,8 @@ git checkout -b appv1
 - FREE: aider --yes-always --read CONVENTIONS.md --read package.json --model openrouter/google/gemini-2.0-flash-exp:free --editor-model openrouter/deepseek/deepseek-chat-v3-0324:free --api-key openrouter=OPENROUTER_KEY --no-show-model-warnings --auto-accept-architect --watch-files --no-dry-run --no-browser --architect
 
 ### Arquivos importantes:
-#### [CONVENTIONS.md]
-#### [INSTRUCTIONS.md]
+#### (CONVENTIONS.md)
+#### (INSTRUCTIONS.md)
 
 Já testei praticamente todos os modelos free da openrouter.ai(llama, qwen, mistral, versões do deepseek e etc). De longe, o melhor foi: --model openrouter/google/gemini-2.0-flash-exp:free --editor-model openrouter/deepseek/deepseek-chat-v3-0324:free
 
