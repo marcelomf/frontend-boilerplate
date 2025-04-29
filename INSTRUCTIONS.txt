@@ -1,0 +1,12 @@
+Leia o conteúdo dos arquivos: src/types/index.ts src/api/index.ts src/envConfig.ts src/components/sidebar/nav-user.tsx src/components/sidebar/app-sidebar.tsx src/components/sidebar/nav-main.tsx src/app/head.tsx src/app/globals.css src/app/page.tsx src/app/layout.tsx src/app/footer.tsx src/app/sidebar.tsx src/app/user/fields.tsx src/app/user/show/[id]/page.tsx src/app/user/page.tsx src/app/user/new/page.tsx src/app/user/save.tsx src/app/user/edit/[id]/page.tsx src/app/user/table.tsx src/app/user/filter.tsx src/app/user/actions.tsx src/app/user/cards.tsx src/app/dashboard/log.tsx src/app/dashboard/page.tsx src/app/dashboard/chart-area-interactive.tsx src/app/dashboard/section-cards.tsx src/app/role/fields.tsx src/app/role/show/[id]/page.tsx src/app/role/page.tsx src/app/role/new/page.tsx src/app/role/save.tsx src/app/role/edit/[id]/page.tsx src/app/role/table.tsx src/app/role/filter.tsx src/app/role/actions.tsx src/app/role/cards.tsx src/lib/utils.ts src/hooks/use-mobile.ts
+Aprenda sobre a code base do projeto.
+Não faça nenhuma alteração em códigos por enquanto. 
+Não faça sugestões de melhorias por enquanto.
+
+Desenvolva uma plataforma completa para catalogo e prestação de serviços para pessoas em situação de rua. Deve ter cadastro de pessoas em situação de rua. Cadastro de prestadores de serviço como assistentes sociais, psicólogos, médicos, nutricionistas, advogados. Cadastro de doadores que farão doações para os prestadores de serviço e pessoas em situação de rua. Cadastro de cidades por parte do governo. 
+
+Go ahead, step by step.
+
+Você deve prosseguir até concluir todas as implementações propostas, verifique sempre se o arquivo já existe, se existe, utilize o conteúdo atual no SEARCH/REPLACE, se não existe, crie o arquivo e coloque o novo conteúdo.
+
+/map and /map-refresh
