@@ -36,3 +36,16 @@ Follow these rules when you write code:
 - Use descriptive variable and function/const names. Also, event functions should be named with a “handle” prefix, like “handleClick” for onClick and “handleKeyDown” for onKeyDown.
 - Use consts instead of functions, for example, “const toggle = () =>”. Also, define a type if possible.
 - Before change a file, you should awayls consider the current content of a file for utilize on SEARCH/REPLACE.
+
+A new pages/modules/registrations/cruds/entities you should be make this steps:
+- Create: src/app/NEW_PAGE_NAME/actions.tsx
+- Create: src/app/NEW_PAGE_NAME/fields.tsx
+- Create: src/app/NEW_PAGE_NAME/show/[id]/page.tsx
+- Create: src/app/NEW_PAGE_NAME/filter.tsx
+- Create: src/app/NEW_PAGE_NAME/edit/[id]/page.tsx
+- Create: src/app/NEW_PAGE_NAME/cards.tsx
+- Create: src/app/NEW_PAGE_NAME/new/page.tsx
+- Create: src/app/NEW_PAGE_NAME/table.tsx (use src/components/datatable/index.tsx)
+- Create: src/app/NEW_PAGE_NAME/save.tsx
+- Create: src/app/NEW_PAGE_NAME/page.tsx
+Like by example a user module.
