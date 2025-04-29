@@ -22,6 +22,10 @@ git checkout -b appv1
 - PAGO: aider --yes-always --read CONVENTIONS.md --read package.json --model anthropic/claude-3-haiku-20240307 --editor-model anthropic/claude-3-haiku-20240307 --api-key anthropic=ANTHROPIC_KEY --no-show-model-warnings --auto-accept-architect --watch-files --no-dry-run --no-browser --architect
 - FREE: aider --yes-always --read CONVENTIONS.md --read package.json --model openrouter/google/gemini-2.0-flash-exp:free --editor-model openrouter/deepseek/deepseek-chat-v3-0324:free --api-key openrouter=OPENROUTER_KEY --no-show-model-warnings --auto-accept-architect --watch-files --no-dry-run --no-browser --architect
 
+### Arquivos importantes:
+#### [CONVENTIONS.md]
+#### [INSTRUCTIONS.md]
+
 Já testei praticamente todos os modelos free da openrouter.ai(llama, qwen, mistral, versões do deepseek e etc). De longe, o melhor foi: --model openrouter/google/gemini-2.0-flash-exp:free --editor-model openrouter/deepseek/deepseek-chat-v3-0324:free
 
 Acredito que agora para melhorar tem que ser por prompt mesmo.
